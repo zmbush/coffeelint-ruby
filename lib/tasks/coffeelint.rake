@@ -16,7 +16,5 @@ task :coffeelint do
         puts "     #{bad} \e[31m##{error["lineNumber"]}\e[0m: #{error["message"]}, #{error["context"]}."
       end
     end
-    
-    fail "Lint!" unless success
   end
 end
