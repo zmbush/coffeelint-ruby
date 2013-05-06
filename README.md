@@ -38,7 +38,12 @@ Additionally, if you are using rails you also get the rake task:
 
     rake coffeelint
 
-Which will run the test on any *.coffee file in your project
+Which will run the test on any *.coffee file in your `app` or `spec` directories
+
+Finally, there is a command line utility that allows you to run standalone tests:
+
+    coffeelint <filename>
+    coffeelint -r <directory>
 
 ## Contributing
 
