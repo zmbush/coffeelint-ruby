@@ -11,6 +11,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{Ruby bindings for coffeelint}
   gem.summary       = %q{Ruby bindings for coffeelint along with railtie to add rake task to rails}
   gem.homepage      = "https://github.com/zipcodeman/coffeelint-ruby"
+  gem.licenses      = ["MIT"]
 
   gem.files         = `git ls-files`.split($/)
   gem.files        << 'coffeelint/src/coffeelint.coffee'
