@@ -30,8 +30,6 @@ module Coffeelint
   end
 
   def self.display_test_results(name, errors)
-    name = name[2..-1]
-
     good = "\u2713"
     bad = "\u2717"
 
