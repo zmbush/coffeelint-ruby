@@ -31,14 +31,22 @@ lint_reports = Coffeelint.lint_dir(directory)
 Coffeelint.lint_dir(directory) do |filename, lint_report|
     puts filename
     puts lint_report
+    Coffeelint.display_test_results(filename, lint_report)
 end
+Coffeelint.run_test(filename of coffeescript source) # Run tests and print pretty results (return true/false)
+Coffeelint.run_test_suite(directory) # Runs a pretty report recursively for a directory (return true/false)
 ```
 
 Additionally, if you are using rails you also get the rake task:
 
     rake coffeelint
 
-Which will run the test on any *.coffee file in your project
+Which will run the test on any *.coffee file in your `app` or `spec` directories
+
+Finally, there is a command line utility that allows you to run standalone tests:
+
+    coffeelint <filename>
+    coffeelint -r <directory>
 
 ## Contributing
 
