@@ -31,7 +31,10 @@ lint_reports = Coffeelint.lint_dir(directory)
 Coffeelint.lint_dir(directory) do |filename, lint_report|
     puts filename
     puts lint_report
+    Coffeelint.display_test_results(filename, lint_report)
 end
+Coffeelint.run_test(filename of coffeescript source) # Run tests and print pretty results (return true/false)
+Coffeelint.run_test_suite(directory) # Runs a pretty report recursively for a directory (return true/false)
 ```
 
 Additionally, if you are using rails you also get the rake task:
