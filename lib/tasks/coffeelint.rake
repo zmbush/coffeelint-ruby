@@ -3,10 +3,14 @@ task :coffeelint do
   files = Coffeelint.lint_dir('.')
   files.each do |name, errors|
     name = name[2..-1]
+
+    good = "\x27\x13"
+    bad = "\x27\x17"
+
     if errors.length == 0
-      puts "+ #{name}"
+      puts "#{good} #{name}"
     else
-      puts "- #{name}"
+      puts "#{bad} #{name}"
       errors.each do |error|
         puts "    ##{error["lineNumber"]}: #{error["message"]}, #{error["context"]}."
       end
