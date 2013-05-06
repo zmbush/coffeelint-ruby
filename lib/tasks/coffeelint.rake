@@ -2,6 +2,7 @@ desc "lint application javascript"
 task :coffeelint do
   files = Coffeelint.lint_dir('.')
   files.each do |name, errors|
+    name = name[2..-1]
     if errors.length == 0
       puts "+ #{name}"
     else
