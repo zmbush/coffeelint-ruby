@@ -29,23 +29,34 @@ module Coffeelint
     retval
   end
 
-  def self.run_test(directory)
-    success = true
-    Coffeelint.lint_dir('.') do |name, errors|
-      name = name[2..-1]
+  def self.display_test_results(name, errors)
+    name = name[2..-1]
 
-      good = "\u2713"
-      bad = "\u2717"
+    good = "\u2713"
+    bad = "\u2717"
 
-      if errors.length == 0
-        puts "  #{good} \e[1m\e[32m#{name}\e[0m"
-      else
-        success = false
-        puts "  #{bad} \e[1m\e[31m#{name}\e[0m"
-        errors.each do |error|
-          puts "     #{bad} \e[31m##{error["lineNumber"]}\e[0m: #{error["message"]}, #{error["context"]}."
-        end
+    if errors.length == 0
+      puts "  #{good} \e[1m\e[32m#{name}\e[0m"
+      return true
+    else
+      puts "  #{bad} \e[1m\e[31m#{name}\e[0m"
+      errors.each do |error|
+        puts "     #{bad} \e[31m##{error["lineNumber"]}\e[0m: #{error["message"]}, #{error["context"]}."
       end
+      return false
+    end
+  end
+
+  def self.run_test(file)
+    result = Coffeelint.lint_file(file)
+    Coffeelint.display_test_results(file, result)
+  end
+
+  def self.run_test_suite(directory)
+    success = true
+    Coffeelint.lint_dir(directory) do |name, errors|
+      result = Coffeelint.display_test_results(name, errors)
+      success = false if not result
     end
     success
   end
