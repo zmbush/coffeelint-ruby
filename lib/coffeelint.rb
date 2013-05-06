@@ -13,4 +13,14 @@ module Coffeelint
     context = ExecJS.compile(coffeescriptSource + coffeelintSource)
     context.call('coffeelint.lint', script)
   end
+
+  def self.lint_file(filename)
+    Coffeelint.lint(File.read(filename))
+  end
+
+  def self.lint_dir(directory)
+    Dir.glob("#{directory}/*.coffee") do |name|
+      Coffeelint.lint_file(name)
+    end
+  end
 end
