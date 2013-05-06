@@ -1,12 +1,16 @@
 # Coffeelint
 
-TODO: Write a gem description
+Coffeelint is a set of simple ruby bindings for [coffeelint](https://github.com/clutchski/coffeelint).
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
     gem 'coffeelint'
+
+Or for the most up to date version:
+
+    gem 'coffeelint', :git => 'git://github.com/zipcodeman/coffeelint-ruby.git', :submodules => true
 
 And then execute:
 
@@ -18,7 +22,21 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+There are a few different uses of coffeelint.
+
+    lint_report = Coffeelint.lint(coffeescript source code)
+    lint_report = Coffeelint.lint_file(filename of coffeescript source)
+    lint_reports = Coffeelint.lint_dir(directory)
+    Coffeelint.lint_dir(directory) do |filename, lint_report|
+        puts filename
+        puts lint_report
+    end
+
+Additionally, if you are using rails you also get the rake task:
+
+    rake coffeelint
+
+Which will run the test on any *.coffee file in your project
 
 ## Contributing
 
