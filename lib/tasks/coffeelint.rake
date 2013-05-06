@@ -17,4 +17,6 @@ task :coffeelint do
       end
     end
   end
+
+  fail "Lint!" unless success
 end
