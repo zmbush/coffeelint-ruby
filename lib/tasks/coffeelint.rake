@@ -4,8 +4,8 @@ task :coffeelint do
   files.each do |name, errors|
     name = name[2..-1]
 
-    good = "\x27\x13"
-    bad = "\x27\x17"
+    good = "\u2713"
+    bad = "\u2717"
 
     if errors.length == 0
       puts "#{good} #{name}"
