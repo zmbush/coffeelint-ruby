@@ -22,7 +22,7 @@ module Coffeelint
 
   def self.lint_dir(directory)
     retval = {}
-    Dir.glob("#{directory}/*.coffee") do |name|
+    Dir.glob("#{directory}/**/*.coffee") do |name|
       retval[name] = Coffeelint.lint_file(name)
     end
     retval
