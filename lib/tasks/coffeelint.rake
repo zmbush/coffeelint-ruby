@@ -7,7 +7,7 @@ task :coffeelint do
     else
       puts "- #{name}"
       errors.each do |error|
-        puts "    ##{error.lineNumber}: #{error.message}, #{error.context}."
+        puts "    ##{error["lineNumber"]}: #{error["message"]}, #{error["context"]}."
       end
     end
   end
