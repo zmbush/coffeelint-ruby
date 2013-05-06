@@ -8,11 +8,11 @@ task :coffeelint do
     bad = "\u2717"
 
     if errors.length == 0
-      puts "#{good} #{name}"
+      puts "  #{good} \e[1m\e[32m#{name}\e[0m"
     else
-      puts "#{bad} #{name}"
+      puts "  #{bad} \e[1m\e[31m#{name}\e[0m"
       errors.each do |error|
-        puts "    ##{error["lineNumber"]}: #{error["message"]}, #{error["context"]}."
+        puts "     #{bad} #\e[31m#{error["lineNumber"]}\e[0m: #{error["message"]}, #{error["context"]}."
       end
     end
   end
