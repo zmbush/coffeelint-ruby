@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = Coffeelint::VERSION
   gem.authors       = ["Zachary Bush"]
   gem.email         = ["zach@zmbush.com"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Ruby bindings for coffeelint}
+  gem.summary       = %q{Ruby bindings for coffeelint}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)
