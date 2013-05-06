@@ -9,10 +9,11 @@ Gem::Specification.new do |gem|
   gem.authors       = ["Zachary Bush"]
   gem.email         = ["zach@zmbush.com"]
   gem.description   = %q{Ruby bindings for coffeelint}
-  gem.summary       = %q{Ruby bindings for coffeelint}
-  gem.homepage      = ""
+  gem.summary       = %q{Ruby bindings for coffeelint along with railtie to add rake task to rails}
+  gem.homepage      = "https://github.com/zipcodeman/coffeelint-ruby"
 
   gem.files         = `git ls-files`.split($/)
+  gem.files        << 'coffeelint/src/coffeelint.coffee'
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
