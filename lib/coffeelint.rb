@@ -3,6 +3,8 @@ require 'execjs'
 require 'coffee-script'
 
 module Coffeelint
+  require 'coffeelint/railtie' if defined?(Rails)
+
   def self.path()
     @path ||= File.expand_path('../../coffeelint/src/coffeelint.coffee', __FILE__)
   end
@@ -19,8 +21,10 @@ module Coffeelint
   end
 
   def self.lint_dir(directory)
+    retval = {}
     Dir.glob("#{directory}/*.coffee") do |name|
-      Coffeelint.lint_file(name)
+      retval[name] = Coffeelint.lint_file(name)
     end
+    retval
   end
 end
