@@ -24,7 +24,7 @@ module Coffeelint
     retval = {}
     Dir.glob("#{directory}/**/*.coffee") do |name|
       retval[name] = Coffeelint.lint_file(name)
-      yield name, retval[name]
+      yield name, retval[name] if block_given?
     end
     retval
   end
