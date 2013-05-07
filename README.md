@@ -27,6 +27,7 @@ There are a few different uses of coffeelint.
 ```ruby
 lint_report = Coffeelint.lint(coffeescript source code)
 lint_report = Coffeelint.lint_file(filename of coffeescript source)
+lint_reports = Coffeelint.lint_dir(directory)
 Coffeelint.lint_dir(directory) do |filename, lint_report|
     puts filename
     puts lint_report
