@@ -45,8 +45,8 @@ Which will run the test on any *.coffee file in your `app` or `spec` directories
 
 Finally, there is a command line utility that allows you to run standalone tests:
 
-    coffeelint <filename>
-    coffeelint -r <directory>
+    coffeelint.rb <filename>
+    coffeelint.rb -r <directory>
 
 ## Contributing
 
