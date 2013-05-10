@@ -9,21 +9,21 @@ module Coffeelint
     @path ||= File.expand_path('../../coffeelint/src/coffeelint.coffee', __FILE__)
   end
 
-  def self.lint(script)
+  def self.lint(script, config = {})
     coffeescriptSource = File.read(CoffeeScript::Source.path)
     coffeelintSource = CoffeeScript.compile(File.read(Coffeelint.path))
     context = ExecJS.compile(coffeescriptSource + coffeelintSource)
-    context.call('coffeelint.lint', script)
+    context.call('coffeelint.lint', script, config)
   end
 
-  def self.lint_file(filename)
-    Coffeelint.lint(File.read(filename))
+  def self.lint_file(filename, config = {})
+    Coffeelint.lint(File.read(filename), config)
   end
 
-  def self.lint_dir(directory)
+  def self.lint_dir(directory, config = {})
     retval = {}
     Dir.glob("#{directory}/**/*.coffee") do |name|
-      retval[name] = Coffeelint.lint_file(name)
+      retval[name] = Coffeelint.lint_file(name, config)
       yield name, retval[name] if block_given?
     end
     retval
@@ -45,14 +45,14 @@ module Coffeelint
     end
   end
 
-  def self.run_test(file)
-    result = Coffeelint.lint_file(file)
+  def self.run_test(file, config = {})
+    result = Coffeelint.lint_file(file, config)
     Coffeelint.display_test_results(file, result)
   end
 
-  def self.run_test_suite(directory)
+  def self.run_test_suite(directory, config = {})
     success = true
-    Coffeelint.lint_dir(directory) do |name, errors|
+    Coffeelint.lint_dir(directory, config) do |name, errors|
       result = Coffeelint.display_test_results(name, errors)
       success = false if not result
     end
