@@ -9,6 +9,18 @@ module Coffeelint
     @path ||= File.expand_path('../../coffeelint/src/coffeelint.coffee', __FILE__)
   end
 
+  def self.colorize(str, color_code)
+    "\e[#{color_code}m#{str}\e[0m"
+  end
+
+  def self.red(str, pretty_output = true)
+    pretty_output ? Coffeelint.colorize(str, 31) : str
+  end
+
+  def self.green(str, pretty_output = true)
+    pretty_output ? Coffeelint.colorize(str, 32) : str
+  end
+
   def self.lint(script, config = {})
     coffeescriptSource = File.read(CoffeeScript::Source.path)
     coffeelintSource = CoffeeScript.compile(File.read(Coffeelint.path))
@@ -29,31 +41,35 @@ module Coffeelint
     retval
   end
 
-  def self.display_test_results(name, errors)
-    good = "\u2713"
-    bad = "\u2717"
+  def self.display_test_results(name, errors, pretty_output = true)
+    good = pretty_output ? "\u2713" : 'Passed'
+    bad = pretty_output ? "\u2717" : 'Failed'
 
     if errors.length == 0
-      puts "  #{good} \e[1m\e[32m#{name}\e[0m"
+      puts "  #{good} " + Coffeelint.green(name, pretty_output)
       return true
     else
-      puts "  #{bad} \e[1m\e[31m#{name}\e[0m"
+      puts "  #{bad} " + Coffeelint.red(name, pretty_output)
       errors.each do |error|
-        puts "     #{bad} \e[31m##{error["lineNumber"]}\e[0m: #{error["message"]}, #{error["context"]}."
+        print "     #{bad} "
+        print CoffeeLint.red(error["lineNumber"], pretty_output)
+        puts ": #{error["message"]}, #{error["context"]}."
       end
       return false
     end
   end
 
   def self.run_test(file, config = {})
+    pretty_output = config.has_key?(:pretty_output) ? config.delete(:pretty_output) : true
     result = Coffeelint.lint_file(file, config)
-    Coffeelint.display_test_results(file, result)
+    Coffeelint.display_test_results(file, result, pretty_output)
   end
 
   def self.run_test_suite(directory, config = {})
+    pretty_output = config.has_key?(:pretty_output) ? config.delete(:pretty_output) : true
     success = true
     Coffeelint.lint_dir(directory, config) do |name, errors|
-      result = Coffeelint.display_test_results(name, errors)
+      result = Coffeelint.display_test_results(name, errors, pretty_output)
       success = false if not result
     end
     success
