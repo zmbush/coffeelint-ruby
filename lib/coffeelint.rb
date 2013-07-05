@@ -14,11 +14,11 @@ module Coffeelint
   end
 
   def self.red(str, pretty_output = true)
-    pretty_output && Coffeelint.colorize(str, 31) || str
+    pretty_output ? Coffeelint.colorize(str, 31) : str
   end
 
   def self.green(str, pretty_output = true)
-    pretty_output && Coffeelint.colorize(str, 32) || str
+    pretty_output ? Coffeelint.colorize(str, 32) : str
   end
 
   def self.lint(script, config = {})
@@ -42,8 +42,8 @@ module Coffeelint
   end
 
   def self.display_test_results(name, errors, pretty_output = true)
-    good = pretty_output && "\u2713" || 'Passed'
-    bad = pretty_output && "\u2717" || 'Failed'
+    good = pretty_output ? "\u2713" : 'Passed'
+    bad = pretty_output ? "\u2717" : 'Failed'
 
     if errors.length == 0
       puts "  #{good} " + Coffeelint.green(name, pretty_output)
