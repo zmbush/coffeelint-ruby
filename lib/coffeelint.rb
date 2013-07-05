@@ -59,12 +59,14 @@ module Coffeelint
     end
   end
 
-  def self.run_test(file, config = {}, pretty_output = true)
+  def self.run_test(file, config = {})
+    pretty_output = config.has_key?(:pretty_output) ? config.delete(:pretty_output) : true
     result = Coffeelint.lint_file(file, config)
     Coffeelint.display_test_results(file, result, pretty_output)
   end
 
-  def self.run_test_suite(directory, config = {}, pretty_output = true)
+  def self.run_test_suite(directory, config = {})
+    pretty_output = config.has_key?(:pretty_output) ? config.delete(:pretty_output) : true
     success = true
     Coffeelint.lint_dir(directory, config) do |name, errors|
       result = Coffeelint.display_test_results(name, errors, pretty_output)
