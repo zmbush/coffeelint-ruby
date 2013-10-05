@@ -52,7 +52,7 @@ module Coffeelint
       puts "  #{bad} " + Coffeelint.red(name, pretty_output)
       errors.each do |error|
         print "     #{bad} "
-        print CoffeeLint.red(error["lineNumber"], pretty_output)
+        print Coffeelint.red(error["lineNumber"], pretty_output)
         puts ": #{error["message"]}, #{error["context"]}."
       end
       return false
