@@ -25,17 +25,28 @@ Or install it yourself as:
 There are a few different uses of coffeelint.
 
 ```ruby
-lint_report = Coffeelint.lint(coffeescript source code)
-lint_report = Coffeelint.lint_file(filename of coffeescript source)
-lint_reports = Coffeelint.lint_dir(directory)
-Coffeelint.lint_dir(directory) do |filename, lint_report|
+lint_report = Coffeelint.lint(coffeescript source code, [config options])
+lint_report = Coffeelint.lint_file(filename of coffeescript source, [config_options])
+lint_reports = Coffeelint.lint_dir(directory, [config_options])
+Coffeelint.lint_dir(directory, [config_options]) do |filename, lint_report|
     puts filename
     puts lint_report
     Coffeelint.display_test_results(filename, lint_report)
 end
-Coffeelint.run_test(filename of coffeescript source) # Run tests and print pretty results (return true/false)
-Coffeelint.run_test_suite(directory) # Runs a pretty report recursively for a directory (return true/false)
+Coffeelint.run_test(filename of coffeescript source, [config_options]) # Run tests and print pretty results (return true/false)
+Coffeelint.run_test_suite(directory, [config_options]) # Runs a pretty report recursively for a directory (return true/false)
 ```
+
+### Config Options
+
+The coffeelint gem takes the same config options as coffeelint. The only
+addition is the config_file parameter. If you call coffeelint like:
+
+```ruby
+Coffeelint.run_test_suite(directory, :config_file => 'coffeelint_config.json')
+```
+
+Then it will load the config options from that file.
 
 Additionally, if you are using rails you also get the rake task:
 
@@ -47,6 +58,7 @@ Finally, there is a command line utility that allows you to run standalone tests
 
     coffeelint.rb <filename>
     coffeelint.rb -r <directory>
+    coffeelint.rb -f <config.json> [-r] <fname-or-directory>
 
 ## Contributing
 

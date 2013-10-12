@@ -10,6 +10,9 @@ options = {
             :stdin => false,
             :quiet => false,
           }
+
+linter_options = {}
+
 opt_parser = OptionParser.new do |opts|
   opts.banner = "Usage: coffeelint.rb [options] source [...]"
 
@@ -28,12 +31,14 @@ opt_parser = OptionParser.new do |opts|
 
 
   opts.on "-f", "--file", "Specify a custom configuration file." do |f|
-    options[:config_file] = f
+    linter_options[:config_file] = f
   end
 
+=begin
   opts.on "--noconfig", "Ignores the environment variabel COFFEELINT_CONFIG." do |f|
     options[:noconfig] = true
   end
+=end
 
   opts.on_tail "-h", "--help", "Print help information." do
     puts opts
@@ -49,6 +54,7 @@ opt_parser = OptionParser.new do |opts|
     options[:recursive] = true
   end
 
+=begin
   opts.on '-s', '--stdin', "Lint the source from stdin" do
     options[:stdin] = true
   end
@@ -56,6 +62,8 @@ opt_parser = OptionParser.new do |opts|
   opts.on '-q', '--quiet', 'Only print errors.' do
     options[:quiet] = true
   end
+=end
+
 end
 
 opt_parser.parse!
@@ -63,11 +71,9 @@ opt_parser.parse!
 if ARGV.length > 0
   ARGV.each do |file|
     if options[:recursive]
-      Coffeelint.run_test_suite(file)
+      Coffeelint.run_test_suite(file, linter_options)
     else
-      Coffeelint.run_test(file)
+      Coffeelint.run_test(file, linter_options)
     end
   end
-else
-  puts opt_parser
 end

@@ -22,6 +22,10 @@ module Coffeelint
   end
 
   def self.lint(script, config = {})
+    if !config[:config_file].nil?
+      fname = config.delete(:config_file)
+      config.merge!(JSON.parse(File.read(fname)))
+    end
     coffeescriptSource = File.read(CoffeeScript::Source.path)
     coffeelintSource = CoffeeScript.compile(File.read(Coffeelint.path))
     context = ExecJS.compile(coffeescriptSource + coffeelintSource)
