@@ -1,6 +1,7 @@
 require "coffeelint/version"
 require 'execjs'
 require 'coffee-script'
+require 'json'
 
 module Coffeelint
   require 'coffeelint/railtie' if defined?(Rails)
