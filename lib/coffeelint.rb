@@ -7,7 +7,7 @@ module Coffeelint
   require 'coffeelint/railtie' if defined?(Rails)
 
   def self.path()
-    @path ||= File.expand_path('../../coffeelint/src/coffeelint.coffee', __FILE__)
+    @path ||= File.expand_path('../../coffeelint/lib/coffeelint.js', __FILE__)
   end
 
   def self.colorize(str, color_code)
@@ -22,15 +22,24 @@ module Coffeelint
     pretty_output ? Coffeelint.colorize(str, 32) : str
   end
 
+  def self.context
+    coffeescriptSource = File.read(CoffeeScript::Source.path)
+    bootstrap = <<-EOF
+    window = {
+      CoffeeScript: CoffeeScript,
+      coffeelint: {}
+    };
+    EOF
+    coffeelintSource = File.read(Coffeelint.path)
+    ExecJS.compile(coffeescriptSource + bootstrap + coffeelintSource)
+  end
+
   def self.lint(script, config = {})
     if !config[:config_file].nil?
       fname = config.delete(:config_file)
       config.merge!(JSON.parse(File.read(fname)))
     end
-    coffeescriptSource = File.read(CoffeeScript::Source.path)
-    coffeelintSource = CoffeeScript.compile(File.read(Coffeelint.path))
-    context = ExecJS.compile(coffeescriptSource + coffeelintSource)
-    context.call('coffeelint.lint', script, config)
+    Coffeelint.context.call('window.coffeelint.lint', script, config)
   end
 
   def self.lint_file(filename, config = {})

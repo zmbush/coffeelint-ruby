@@ -8,3 +8,16 @@ task :console do
   sh "irb -rubygems -I lib -r coffeelint.rb"
 end
 
+task :compile => [:prepare, :build]
+
+task :prepare do
+  sh "git submodule init"
+  sh "git submodule update"
+
+  Dir.chdir('coffeelint') do
+    sh "npm install"
+    sh "npm run compile"
+  end
+
+  sh "rake spec"
+end
