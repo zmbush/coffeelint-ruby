@@ -31,3 +31,19 @@ task :prepare do
 
   sh "rake spec"
 end
+
+def coffeelint_version
+  Dir.chdir('coffeelint') do
+    retval = `git describe`
+    retval.strip! || retval
+  end
+end
+
+task :update_readme do
+  readme_name = 'README.md'
+  readme = File.read(readme_name)
+  readme = readme.gsub(/(coffeelint version: )v[0-9.]+/, "\\1#{coffeelint_version}")
+  File.open(readme_name, 'w') do |f|
+    f.write(readme)
+  end
+end
