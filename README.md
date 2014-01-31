@@ -1,4 +1,4 @@
-# Coffeelint [![Gem Version](https://badge.fury.io/rb/coffeelint.png)](http://badge.fury.io/rb/coffeelint)
+# Coffeelint [![Build Status](https://travis-ci.org/zipcodeman/coffeelint-ruby.png?branch=master)](https://travis-ci.org/zipcodeman/coffeelint-ruby) [![Gem Version](https://badge.fury.io/rb/coffeelint.png)](http://badge.fury.io/rb/coffeelint)
 
 Coffeelint is a set of simple ruby bindings for [coffeelint](https://github.com/clutchski/coffeelint).
 
