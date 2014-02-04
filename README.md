@@ -4,7 +4,7 @@ Using coffeelint version: v1.0.7
 
 Coffeelint is a set of simple ruby bindings for [coffeelint](https://github.com/clutchski/coffeelint).
 
-## Installation
+## Install the [Gem](https://rubygems.org/gems/coffeelint)
 
 Add this line to your application's Gemfile:
 
