@@ -1,4 +1,4 @@
-# Coffeelint [![Build Status](https://travis-ci.org/zipcodeman/coffeelint-ruby.png?branch=master)](https://travis-ci.org/zipcodeman/coffeelint-ruby) [![Gem Version](https://badge.fury.io/rb/coffeelint.png)](http://badge.fury.io/rb/coffeelint)
+# Coffeelint [![Build Status](https://travis-ci.org/zmbush/coffeelint-ruby.png?branch=master)](https://travis-ci.org/zmbush/coffeelint-ruby) [![Gem Version](https://badge.fury.io/rb/coffeelint.png)](http://badge.fury.io/rb/coffeelint)
 
 Using coffeelint version: v1.1.0
 
@@ -12,7 +12,7 @@ Add this line to your application's Gemfile:
 
 Or for the most up to date version:
 
-    gem 'coffeelint', :git => 'git://github.com/zipcodeman/coffeelint-ruby.git', :submodules => true
+    gem 'coffeelint', :git => 'git://github.com/zmbush/coffeelint-ruby.git', :submodules => true
 
 And then execute:
 
