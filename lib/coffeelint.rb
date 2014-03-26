@@ -4,7 +4,7 @@ require 'coffee-script'
 require 'json'
 
 module Coffeelint
-  require 'coffeelint/railtie' if defined?(Rails)
+  require 'coffeelint/railtie' if defined?(Rails::Railtie)
 
   def self.path()
     @path ||= File.expand_path('../../coffeelint/lib/coffeelint.js', __FILE__)
