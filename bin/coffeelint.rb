@@ -30,7 +30,7 @@ opt_parser = OptionParser.new do |opts|
 =end
 
 
-  opts.on "-f", "--file", "Specify a custom configuration file." do |f|
+  opts.on "-f FILE", "--file FILE", "Specify a custom configuration file." do |f|
     linter_options[:config_file] = f
   end
 
