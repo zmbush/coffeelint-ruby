@@ -21,6 +21,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "coffee-script"
   gem.add_dependency "json"
+  gem.add_dependency "execjs"
 
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'rake'
