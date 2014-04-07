@@ -23,6 +23,10 @@ module Coffeelint
     pretty_output ? Coffeelint.colorize(str, 32) : str
   end
 
+  def self.yellow(str, pretty_output = true)
+    pretty_output ? Coffeelint.colorize(str, 33) : str
+  end
+
   def self.context
     coffeescriptSource = File.read(CoffeeScript::Source.path)
     bootstrap = <<-EOF
@@ -58,19 +62,38 @@ module Coffeelint
 
   def self.display_test_results(name, errors, pretty_output = true)
     good = pretty_output ? "\u2713" : 'Passed'
+    warn = pretty_output ? "\u26A1" : 'Warn'
     bad = pretty_output ? "\u2717" : 'Failed'
 
     if errors.length == 0
       puts "  #{good} " + Coffeelint.green(name, pretty_output)
       return true
     else
-      puts "  #{bad} " + Coffeelint.red(name, pretty_output)
-      errors.each do |error|
-        print "     #{bad} "
-        print Coffeelint.red(error["lineNumber"], pretty_output)
-        puts ": #{error["message"]}, #{error["context"]}."
+      failed = false
+      if errors.any? {|e| e["level"] == "error"}
+        failed = true
+        puts "  #{bad} " + Coffeelint.red(name, pretty_output)
+      else
+        puts "  #{warn} " + Coffeelint.yellow(name, pretty_output)
       end
-      return false
+
+      errors.each do |error|
+        disp = "##{error["lineNumber"]}"
+        if error["lineNumberEnd"]
+          disp += "-#{error["lineNumberEnd"]}"
+        end
+
+        print "     "
+        if error["level"] == "warn"
+          print warn + " "
+          print Coffeelint.yellow(disp, pretty_output)
+        else
+          print bad + " "
+          print Coffeelint.red(disp, pretty_output)
+        end
+        puts ": #{error["message"]}. #{error["context"]}."
+      end
+      return failed
     end
   end
 
