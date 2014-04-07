@@ -1,4 +1,5 @@
 require "coffeelint/version"
+require 'coffeelint/cmd'
 require 'execjs'
 require 'coffee-script'
 require 'json'

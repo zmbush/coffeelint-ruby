@@ -8,6 +8,10 @@ task :console do
   sh "irb -rubygems -I lib -r coffeelint.rb"
 end
 
+task :cmd do
+  sh "ruby -I lib -- bin/coffeelint.rb"
+end
+
 task :prepare_coffeelint do
   sh "git submodule init"
   sh "git submodule update"
