@@ -69,9 +69,9 @@ module Coffeelint
       puts "  #{good} " + Coffeelint.green(name, pretty_output)
       return true
     else
-      failed = false
+      no_failures = true
       if errors.any? {|e| e["level"] == "error"}
-        failed = true
+        no_failures = false
         puts "  #{bad} " + Coffeelint.red(name, pretty_output)
       else
         puts "  #{warn} " + Coffeelint.yellow(name, pretty_output)
@@ -93,7 +93,7 @@ module Coffeelint
         end
         puts ": #{error["message"]}. #{error["context"]}."
       end
-      return failed
+      return no_failures
     end
   end
 
