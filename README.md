@@ -1,6 +1,6 @@
 # Coffeelint [![Build Status](https://travis-ci.org/zmbush/coffeelint-ruby.svg?branch=master)](https://travis-ci.org/zmbush/coffeelint-ruby) [![Gem Version](https://badge.fury.io/rb/coffeelint.png)](http://badge.fury.io/rb/coffeelint)
 
-Using coffeelint version: v1.4.1
+Using coffeelint version: v1.6.1
 
 Coffeelint is a set of simple ruby bindings for [coffeelint](https://github.com/clutchski/coffeelint).
 
