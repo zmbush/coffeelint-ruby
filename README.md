@@ -71,3 +71,9 @@ Finally, there is a command line utility that allows you to run standalone tests
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
 5. Create new Pull Request
+
+Bundler needs a compiled coffeelint present which you can get by running
+
+```
+rake prepare
+```
