@@ -3,7 +3,7 @@ task :coffeelint do
   conf = {}
 
   config_file = [].tap {|files|
-    files << ENV['COFFEELNT_CONFIG'] if ENV['COFFEELENT_CONFIG']
+    files << ENV['COFFEELINT_CONFIG'] if ENV['COFFEELINT_CONFIG']
     files << 'config/coffeelint.json'
     if ENV['HOME']
       files << "#{ENV['HOME']}/coffeelint.json"
