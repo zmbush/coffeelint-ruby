@@ -50,6 +50,13 @@ Coffeelint.run_test_suite(directory, :config_file => 'coffeelint_config.json')
 
 Then it will load the config options from that file.
 
+Alternatively you can create a config file in your project, coffeelint will load these by default:
+
+* coffeelint.json
+* .coffeelint.json
+* config/coffeelint.json
+* config/.coffeelint.json
+
 To use a local version of coffeelint instead of the one bundled with the gem, You can set the path with `Coffeelint.set_path(/path/to/coffeelint.js)`
 
 Additionally, if you are using rails you also get the rake task:
