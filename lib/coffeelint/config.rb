@@ -7,8 +7,8 @@ module CoffeeLint
       locations = default_locations
 
       # handle environment variables
-      locations << ENV['COFFEELINT_CONFIG'] if ENV['COFFEELINT_CONFIG']
-      locations += config_files_in_path(ENV['HOME']) if ENV['HOME']
+      locations.push(ENV['COFFEELINT_CONFIG']) if ENV['COFFEELINT_CONFIG']
+      locations.concat(config_files_in_path(ENV['HOME'])) if ENV['HOME']
 
       locations.compact.detect { |file| File.exists?(file) }
     end
