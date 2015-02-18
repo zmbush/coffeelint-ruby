@@ -26,7 +26,7 @@ module CoffeeLint
 
     # Maps config file names in given path/directory.
     def self.config_files_in_path(path)
-      config_files.map { |file| File.join([*path, file].reject { |p| p.nil? || p.empty?}) }
+      config_files.map { |file| File.join([*path, file].reject { |p| p.nil? || p.empty? }) }
     end
     private_class_method :config_files_in_path
 
