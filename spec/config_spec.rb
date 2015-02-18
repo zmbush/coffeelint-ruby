@@ -26,7 +26,7 @@ module CoffeeLint
           expect(Config.locate).to eq('coffeelint.json')
         end
 
-        it 'tries to locate in ENV[\'HOME\']' do
+        it 'tries to locate config files in ENV[\'HOME\']' do
           ENV['HOME'] = '~/coffeescript'
 
           allow(File).to receive(:exists?).with('~/coffeescript/.coffeelint.json').and_return(true)
@@ -39,6 +39,25 @@ module CoffeeLint
       it 'should parse a given JSON file' do
         expect(Config.parse(File.join(File.dirname(__FILE__), 'assets/.coffeelint.json'))).
           to eq({"max_line_length" => {"value" => 120}})
+      end
+    end
+
+    context 'private class methods' do
+      describe '.config_files_in_path' do
+        it 'ignores empty path segments' do
+          result = %w(coffeelint.json .coffeelint.json)
+          expect(Config.send(:config_files_in_path, '')).to eq(result)
+          expect(Config.send(:config_files_in_path, [])).to eq(result)
+          expect(Config.send(:config_files_in_path, [''])).to eq(result)
+        end
+
+        it 'builds usefull path segements' do
+          result = %w(config/coffeelint.json config/.coffeelint.json)
+          expect(Config.send(:config_files_in_path, 'config')).to eq(result)
+          expect(Config.send(:config_files_in_path, ['config'])).to eq(result)
+          expect(Config.send(:config_files_in_path, ['coffeescript', 'config'])).
+            to eq(%w(coffeescript/config/coffeelint.json coffeescript/config/.coffeelint.json))
+        end
       end
     end
   end
