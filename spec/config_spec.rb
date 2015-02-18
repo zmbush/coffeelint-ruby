@@ -26,11 +26,11 @@ module CoffeeLint
           expect(Config.locate).to eq('coffeelint.json')
         end
 
-        it 'tries to locate ENV[\'HOME\']' do
-          ENV['HOME'] = 'coffeelint.json'
+        it 'tries to locate in ENV[\'HOME\']' do
+          ENV['HOME'] = '~/coffeescript'
 
-          allow(File).to receive(:exists?).with('coffeelint.json').and_return(true)
-          expect(Config.locate).to eq('coffeelint.json')
+          allow(File).to receive(:exists?).with('~/coffeescript/.coffeelint.json').and_return(true)
+          expect(Config.locate).to eq('~/coffeescript/.coffeelint.json')
         end
       end
     end
