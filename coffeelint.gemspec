@@ -13,9 +13,7 @@ Gem::Specification.new do |gem|
   gem.homepage      = "https://github.com/zipcodeman/coffeelint-ruby"
   gem.licenses      = ["MIT"]
 
-  gem.files         = `git ls-files`.split($/)
-  gem.files        -= ['bin/coffeelint']
-  gem.files        << 'coffeelint/lib/coffeelint.js'
+  gem.files         = `git ls-files`.split($/) + %w(coffeelint/lib/coffeelint.js) - %w(bin/coffeelint)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
