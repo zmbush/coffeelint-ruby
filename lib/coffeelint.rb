@@ -1,8 +1,8 @@
 require "coffeelint/version"
+require 'coffeelint/config'
 require 'coffeelint/cmd'
 require 'execjs'
 require 'coffee-script'
-require 'json'
 
 module Coffeelint
   require 'coffeelint/railtie' if defined?(Rails::Railtie)
@@ -44,10 +44,8 @@ module Coffeelint
   end
 
   def self.lint(script, config = {})
-    if !config[:config_file].nil?
-      fname = config.delete(:config_file)
-      config.merge!(JSON.parse(File.read(fname)))
-    end
+    fname = config.fetch(:config_file, CoffeeLint::Config.locate)
+    config.merge!(CoffeeLint::Config.parse(fname)) unless fname.nil?
     Coffeelint.context.call('window.coffeelint.lint', script, config)
   end
 
