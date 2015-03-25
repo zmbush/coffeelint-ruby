@@ -36,7 +36,7 @@ Coffeelint.lint_dir(directory, [config_options]) do |filename, lint_report|
     Coffeelint.display_test_results(filename, lint_report)
 end
 Coffeelint.run_test(filename of coffeescript source, [config_options]) # Run tests and print pretty results (return true/false)
-Coffeelint.run_test_suite(directory, [config_options]) # Runs a pretty report recursively for a directory (return true/false)
+Coffeelint.run_test_suite(directory, [config_options]) # Runs a pretty report recursively for a directory (returns/exits with number of errors if any or 0)
 ```
 
 ### Config Options
