@@ -107,11 +107,11 @@ module Coffeelint
 
   def self.run_test_suite(directory, config = {})
     pretty_output = config.has_key?(:pretty_output) ? config.delete(:pretty_output) : true
-    success = true
+    errors_count = 0
     Coffeelint.lint_dir(directory, config) do |name, errors|
+      errors_count += errors.count
       result = Coffeelint.display_test_results(name, errors, pretty_output)
-      success = false if not result
     end
-    success
+    exit errors_count
   end
 end
