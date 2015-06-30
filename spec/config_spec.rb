@@ -51,7 +51,7 @@ module CoffeeLint
           expect(Config.send(:config_files_in_path, [''])).to eq(result)
         end
 
-        it 'builds usefull path segements' do
+        it 'builds useful path segements' do
           result = %w(config/coffeelint.json config/.coffeelint.json)
           expect(Config.send(:config_files_in_path, 'config')).to eq(result)
           expect(Config.send(:config_files_in_path, ['config'])).to eq(result)
