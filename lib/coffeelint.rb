@@ -55,11 +55,25 @@ module Coffeelint
 
   def self.lint_dir(directory, config = {}, context = Coffeelint.context)
     retval = {}
-    Dir.glob("#{directory}/**/*.coffee") do |name|
+    filtered_path = filter(directory)
+
+    Dir.glob(filtered_path) do |name|
       retval[name] = Coffeelint.lint_file(name, config, context)
       yield name, retval[name] if block_given?
     end
     retval
+  end
+
+  def self.filter(directory)
+    Dir.glob("#{directory}/**/*.coffee") - Dir.glob("#{directory}/**/{#{ignored_paths}}")
+  end
+
+  def self.ignored_paths
+    if File.exist?(".coffeelintignore")
+      File.read(".coffeelintignore").lines.map(&:chomp).join(",")
+    else
+      []
+    end
   end
 
   def self.display_test_results(name, errors, pretty_output = true)
