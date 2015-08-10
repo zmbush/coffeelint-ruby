@@ -112,6 +112,6 @@ module Coffeelint
       errors_count += errors.count
       result = Coffeelint.display_test_results(name, errors, pretty_output)
     end
-    exit errors_count
+    errors_count
   end
 end
