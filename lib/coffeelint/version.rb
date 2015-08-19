@@ -1,3 +1,3 @@
 module Coffeelint
-  VERSION = "1.10.0-patch.1"
+  VERSION = "1.11.0"
 end
