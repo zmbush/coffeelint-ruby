@@ -43,20 +43,20 @@ module Coffeelint
     ExecJS.compile(coffeescriptSource + bootstrap + coffeelintSource)
   end
 
-  def self.lint(script, config = {})
+  def self.lint(script, config = {}, context = Coffeelint.context)
     fname = config.fetch(:config_file, CoffeeLint::Config.locate)
     config.merge!(CoffeeLint::Config.parse(fname)) unless fname.nil?
-    Coffeelint.context.call('window.coffeelint.lint', script, config)
+    context.call('window.coffeelint.lint', script, config)
   end
 
-  def self.lint_file(filename, config = {})
-    Coffeelint.lint(File.read(filename), config)
+  def self.lint_file(filename, config = {}, context = Coffeelint.context)
+    Coffeelint.lint(File.read(filename), config, context)
   end
 
-  def self.lint_dir(directory, config = {})
+  def self.lint_dir(directory, config = {}, context = Coffeelint.context)
     retval = {}
     Dir.glob("#{directory}/**/*.coffee") do |name|
-      retval[name] = Coffeelint.lint_file(name, config)
+      retval[name] = Coffeelint.lint_file(name, config, context)
       yield name, retval[name] if block_given?
     end
     retval
