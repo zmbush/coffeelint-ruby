@@ -109,7 +109,8 @@ module Coffeelint
     pretty_output = config.has_key?(:pretty_output) ? config.delete(:pretty_output) : true
     errors_count = 0
     Coffeelint.lint_dir(directory, config) do |name, errors|
-      errors_count += errors.count
+      real_errors = errors.select { |error| error['level'] == 'error' }
+      errors_count += real_errors.count
       result = Coffeelint.display_test_results(name, errors, pretty_output)
     end
     errors_count
