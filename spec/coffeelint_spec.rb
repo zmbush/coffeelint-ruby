@@ -40,4 +40,41 @@ describe Coffeelint do
     expect(results.length).to eq 1
     expect(results[0]['name']).to eq 'cyclomatic_complexity'
   end
+
+  describe 'files to lint' do
+    before(:all) do
+      FileUtils.mkdir_p('/tmp/coffeelint/subdirectory')
+      FileUtils.touch('/tmp/coffeelint/file1.coffee')
+      FileUtils.touch('/tmp/coffeelint/file2.coffee')
+      FileUtils.touch('/tmp/coffeelint/subdirectory/file3.coffee')
+    end
+
+    after(:all) { FileUtils.rm_r('/tmp/coffeelint') }
+
+    before { allow(Coffeelint).to receive(:lint_file) }
+
+    it 'lints all .coffee files in the directory, searching recursively' do
+      results = Coffeelint.lint_dir('/tmp/coffeelint')
+      expect(results).to include(
+        '/tmp/coffeelint/file1.coffee',
+        '/tmp/coffeelint/file2.coffee',
+        '/tmp/coffeelint/subdirectory/file3.coffee'
+      )
+    end
+
+    context 'with a .coffeelintignore file' do
+      before { File.open('.coffeelintignore', 'w') { |f| f.write("file1.coffee\n*file3.coffee") } }
+      after  { FileUtils.rm('.coffeelintignore') }
+
+      it "does not lint ignored paths" do
+        results = Coffeelint.lint_dir('/tmp/coffeelint')
+
+        expect(results).to include('/tmp/coffeelint/file2.coffee')
+        expect(results).not_to include(
+          '/tmp/coffeelint/file1.coffee',
+          '/tmp/coffeelint/subdirectory/file3.coffee'
+        )
+      end
+    end
+  end
 end
