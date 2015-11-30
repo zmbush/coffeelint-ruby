@@ -79,13 +79,17 @@ module Coffeelint
       options = parse_options
 
       if ARGV.length > 0
+        errors_count = 0
         ARGV.each do |file|
           if options[:options][:recursive]
-            Coffeelint.run_test_suite(file, options[:linter_options])
+            result = Coffeelint.run_test_suite(file, options[:linter_options])
+            errors_count += result
           else
-            Coffeelint.run_test(file, options[:linter_options])
+            result = Coffeelint.run_test(file, options[:linter_options])
+            errors_count += 1 unless result == true
           end
         end
+        exit errors_count
       end
     end
   end
