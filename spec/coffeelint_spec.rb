@@ -41,6 +41,24 @@ describe Coffeelint do
     expect(results[0]['name']).to eq 'cyclomatic_complexity'
   end
 
+  describe 'linting files' do
+    before do
+      FileUtils.mkdir_p('/tmp/coffeelint')
+      File.open('/tmp/coffeelint/file1.coffee', 'w') { |f| f.write("a;\na;") }
+      File.open('/tmp/coffeelint/file2.coffee', 'w') { |f| f.write("a;") }
+    end
+
+    after(:all) { FileUtils.rm_r('/tmp/coffeelint') }
+
+    it "should return error count from run_test" do
+      expect(Coffeelint.run_test('/tmp/coffeelint/file1.coffee')).to eq 2
+    end
+
+    it "should return error count from run_test_suite" do
+      expect(Coffeelint.run_test_suite("/tmp/coffeelint")).to eq 3
+    end
+  end
+
   describe 'files to lint' do
     before(:all) do
       FileUtils.mkdir_p('/tmp/coffeelint/subdirectory')

@@ -81,13 +81,11 @@ module Coffeelint
     warn = pretty_output ? "\u26A1" : 'Warn'
     bad = pretty_output ? "\u2717" : 'Failed'
 
+    failure_count = 0
     if errors.length == 0
       puts "  #{good} " + Coffeelint.green(name, pretty_output)
-      return true
     else
-      no_failures = true
       if errors.any? {|e| e["level"] == "error"}
-        no_failures = false
         puts "  #{bad} " + Coffeelint.red(name, pretty_output)
       else
         puts "  #{warn} " + Coffeelint.yellow(name, pretty_output)
@@ -104,29 +102,26 @@ module Coffeelint
           print warn + " "
           print Coffeelint.yellow(disp, pretty_output)
         else
+          failure_count += 1
           print bad + " "
           print Coffeelint.red(disp, pretty_output)
         end
         puts ": #{error["message"]}. #{error["context"]}."
       end
-      return no_failures
     end
+    return failure_count
   end
 
   def self.run_test(file, config = {})
     pretty_output = config.has_key?(:pretty_output) ? config.delete(:pretty_output) : true
-    result = Coffeelint.lint_file(file, config)
-    Coffeelint.display_test_results(file, result, pretty_output)
+    errors = Coffeelint.lint_file(file, config)
+    Coffeelint.display_test_results(file, errors, pretty_output)
   end
 
   def self.run_test_suite(directory, config = {})
     pretty_output = config.has_key?(:pretty_output) ? config.delete(:pretty_output) : true
-    errors_count = 0
-    Coffeelint.lint_dir(directory, config) do |name, errors|
-      real_errors = errors.select { |error| error['level'] == 'error' }
-      errors_count += real_errors.count
-      result = Coffeelint.display_test_results(name, errors, pretty_output)
-    end
-    errors_count
+    Coffeelint.lint_dir(directory, config).map do |name, errors|
+      Coffeelint.display_test_results(name, errors, pretty_output)
+    end.inject(0, :+)
   end
 end

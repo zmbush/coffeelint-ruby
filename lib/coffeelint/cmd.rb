@@ -82,11 +82,9 @@ module Coffeelint
         errors_count = 0
         ARGV.each do |file|
           if options[:options][:recursive]
-            result = Coffeelint.run_test_suite(file, options[:linter_options])
-            errors_count += result
+            errors_count += Coffeelint.run_test_suite(file, options[:linter_options])
           else
-            result = Coffeelint.run_test(file, options[:linter_options])
-            errors_count += 1 unless result == true
+            errors_count += Coffeelint.run_test(file, options[:linter_options])
           end
         end
         exit errors_count
