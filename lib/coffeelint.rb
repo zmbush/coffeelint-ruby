@@ -19,16 +19,19 @@ module Coffeelint
     "\e[#{color_code}m#{str}\e[0m"
   end
 
-  def self.red(str, pretty_output = true)
-    pretty_output ? Coffeelint.colorize(str, 31) : str
-  end
-
-  def self.green(str, pretty_output = true)
-    pretty_output ? Coffeelint.colorize(str, 32) : str
-  end
-
-  def self.yellow(str, pretty_output = true)
-    pretty_output ? Coffeelint.colorize(str, 33) : str
+  def self.method_missing(name, *args, &block)
+    pretty_output = args[1].nil? ? true : false
+    str = args[0]
+    case name
+      when 'red'
+        pretty_output ? Coffeelint.colorize(str, 31) : str
+      when 'green'
+        pretty_output ? Coffeelint.colorize(str, 32) : str
+      when 'yellow'
+        pretty_output ? Coffeelint.colorize(str, 33) : str
+      else
+        raise "Method [#{name}] does not exist!"
+    end
   end
 
   def self.context
