@@ -23,5 +23,5 @@ Gem::Specification.new do |gem|
   gem.add_dependency "execjs"
 
   gem.add_development_dependency 'rspec', '~> 3.1.0'
-  gem.add_development_dependency 'rake'
+  gem.add_development_dependency 'rake', '~>11.3.0'
 end
