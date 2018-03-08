@@ -57,6 +57,10 @@ describe Coffeelint do
     it "should return error count from run_test_suite" do
       expect(Coffeelint.run_test_suite("/tmp/coffeelint")).to eq 3
     end
+
+    it "should return error count when illegal parallel nums passed" do
+      expect(Coffeelint.run_test_suite("/tmp/coffeelint", parallel: 0)).to eq 3
+    end
   end
 
   describe 'files to lint' do

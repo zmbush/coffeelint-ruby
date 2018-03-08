@@ -3,6 +3,8 @@ require 'coffeelint/config'
 require 'coffeelint/cmd'
 require 'execjs'
 require 'coffee-script'
+require 'parallel'
+
 
 module Coffeelint
   require 'coffeelint/railtie' if defined?(Rails::Railtie)
@@ -81,14 +83,15 @@ module Coffeelint
     warn = pretty_output ? "\u26A1" : 'Warn'
     bad = pretty_output ? "\u2717" : 'Failed'
 
+    output = ""
     failure_count = 0
     if errors.length == 0
-      puts "  #{good} " + Coffeelint.green(name, pretty_output)
+      output += "  #{good} #{Coffeelint.green(name, pretty_output)}\n"
     else
       if errors.any? {|e| e["level"] == "error"}
-        puts "  #{bad} " + Coffeelint.red(name, pretty_output)
+        output += "  #{bad} #{Coffeelint.red(name, pretty_output)}\n"
       else
-        puts "  #{warn} " + Coffeelint.yellow(name, pretty_output)
+        output += "  #{warn} #{Coffeelint.yellow(name, pretty_output)}\n"
       end
 
       errors.each do |error|
@@ -97,18 +100,20 @@ module Coffeelint
           disp += "-#{error["lineNumberEnd"]}"
         end
 
-        print "     "
+        output += "     "
         if error["level"] == "warn"
-          print warn + " "
-          print Coffeelint.yellow(disp, pretty_output)
+          output += warn + " "
+          output += Coffeelint.yellow(disp, pretty_output)
         else
           failure_count += 1
-          print bad + " "
-          print Coffeelint.red(disp, pretty_output)
+          output += bad + " "
+          output += Coffeelint.red(disp, pretty_output)
         end
-        puts ": #{error["message"]}. #{error["context"]}."
+        output += ": #{error["message"]}. #{error["context"]}.\n"
       end
     end
+
+    print output
     return failure_count
   end
 
@@ -118,9 +123,10 @@ module Coffeelint
     Coffeelint.display_test_results(file, errors, pretty_output)
   end
 
-  def self.run_test_suite(directory, config = {})
+  def self.run_test_suite(directory, config={})
+    parallel = [1, config.delete(:parallel).to_i || Parallel.processor_count].max
     pretty_output = config.has_key?(:pretty_output) ? config.delete(:pretty_output) : true
-    Coffeelint.lint_dir(directory, config).map do |name, errors|
+    Parallel.map(Coffeelint.lint_dir(directory, config), in_processes: parallel) do |name, errors|
       Coffeelint.display_test_results(name, errors, pretty_output)
     end.inject(0, :+)
   end
