@@ -3,7 +3,7 @@ require 'spec_helper'
 module CoffeeLint
   describe Config do
     describe '.locate' do
-      before(:each) { allow(File).to receive(:exists?) { false } }
+      before(:each) { allow(File).to receive(:exist?) { false } }
 
       it 'returns nil if no config file could be located' do
         expect(Config.locate).to eq(nil)
@@ -12,7 +12,7 @@ module CoffeeLint
       context 'default locations' do
         %w(coffeelint.json .coffeelint.json config/coffeelint.json config/.coffeelint.json).each do |config_file|
           it "tries to locate #{config_file}" do
-            allow(File).to receive(:exists?).with(config_file).and_return(true)
+            allow(File).to receive(:exist?).with(config_file).and_return(true)
             expect(Config.locate).to eq(config_file)
           end
         end
@@ -22,14 +22,14 @@ module CoffeeLint
         it 'tries to locate ENV[\'COFFEELINT_CONFIG\']' do
           ENV['COFFEELINT_CONFIG'] = 'coffeelint.json'
 
-          allow(File).to receive(:exists?).with('coffeelint.json').and_return(true)
+          allow(File).to receive(:exist?).with('coffeelint.json').and_return(true)
           expect(Config.locate).to eq('coffeelint.json')
         end
 
         it 'tries to locate config files in ENV[\'HOME\']' do
           ENV['HOME'] = '~/coffeescript'
 
-          allow(File).to receive(:exists?).with('~/coffeescript/.coffeelint.json').and_return(true)
+          allow(File).to receive(:exist?).with('~/coffeescript/.coffeelint.json').and_return(true)
           expect(Config.locate).to eq('~/coffeescript/.coffeelint.json')
         end
       end
